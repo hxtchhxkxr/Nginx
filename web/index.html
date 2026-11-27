@@ -1,14 +1,39 @@
 <!doctype html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <title>케이크 상품 목록</title>
 </head>
+
 <body>
   <h1>케이크 상품 목록</h1>
-  <ul>
-    <li>초코 케이크 · 17,000원</li>
-    <li>딸기 케이크 · 20,000원</li>
-  </ul>
+  <ul id="product-list"></ul>
+
+  <script>
+    async function loadProducts() {
+      const list = document.getElementById('product-list');
+
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) {
+          throw new Error(`상품 조회 실패 (HTTP ${response.status})`);
+        }
+
+        const products = await response.json();
+        for (const product of products) {
+          const item = document.createElement('li');
+          item.textContent = `${product.name} · ${product.price.toLocaleString('ko-KR')}원`;
+          list.appendChild(item);
+        }
+      } catch (error) {
+        list.textContent = '상품 목록을 불러오지 못했어요.';
+        console.error(error);
+      }
+    }
+
+    loadProducts();
+  </script>
 </body>
+
 </html>
