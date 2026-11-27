@@ -2,6 +2,7 @@ package com.example.backend;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -14,6 +15,11 @@ public class ProductController {
                 new Product(1, "초코 케이크", 17000),
                 new Product(2, "딸기 케이크", 20000)
         );
+    }
+
+    @GetMapping("/api/host")
+    public String getHost(@RequestHeader("Host") String host) {
+        return host;
     }
 
     public record Product(long id, String name, int price) {}
