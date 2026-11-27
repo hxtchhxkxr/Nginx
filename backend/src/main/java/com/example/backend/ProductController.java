@@ -22,5 +22,17 @@ public class ProductController {
         return host;
     }
 
+    @GetMapping("/api/client-ip")
+    public String getClientIp(
+            @RequestHeader(value = "X-Forwarded-For", defaultValue = "없음") String forwardedFor) {
+        return forwardedFor;
+    }
+
+    @GetMapping("/api/proto")
+    public String getProto(
+            @RequestHeader(name = "X-Forwarded-Proto", defaultValue = "없음") String proto) {
+        return proto;
+    }
+
     public record Product(long id, String name, int price) {}
 }
